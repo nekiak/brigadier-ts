@@ -82,6 +82,7 @@ export class CommandDispatcher<S> {
                     foundCommand = true;
                     try {
                         const value = context.getCommand()(context);
+                        // @ts-ignore
                         result += (value || value === 0) ? value : 1;
                         successfulForks++;
                     } catch (e) {
