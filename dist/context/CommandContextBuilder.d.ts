@@ -1,0 +1,31 @@
+import { CommandNode, CommandDispatcher, Command, CommandContext, StringRange, ParsedCommandNode, ParsedArgument, SuggestionContext } from "..";
+export declare class CommandContextBuilder<S> {
+    private source;
+    private arguments;
+    private rootNode;
+    private dispatcher;
+    private command;
+    private child;
+    private range;
+    private nodes;
+    private modifier;
+    private forks;
+    constructor(dispatcher: CommandDispatcher<S>, source: S, rootNode: CommandNode<S>, start: number);
+    withSource(source: S): CommandContextBuilder<S>;
+    getSource(): S;
+    getRootNode(): CommandNode<S>;
+    withArgument(name: string, argument: ParsedArgument<any>): CommandContextBuilder<S>;
+    getArguments(): Map<string, ParsedArgument<any>>;
+    withChild(child: CommandContextBuilder<S>): CommandContextBuilder<S>;
+    getChild(): CommandContextBuilder<S>;
+    getLastChild(): CommandContextBuilder<S>;
+    withCommand(command: Command<S>): CommandContextBuilder<S>;
+    getCommand(): Command<S>;
+    withNode(node: CommandNode<S>, range: StringRange): CommandContextBuilder<S>;
+    getNodes(): ParsedCommandNode<S>[];
+    copy(): CommandContextBuilder<S>;
+    build(input: string): CommandContext<S>;
+    getDispatcher(): CommandDispatcher<S>;
+    getRange(): StringRange;
+    findSuggestionContext(cursor: number): SuggestionContext<S>;
+}
