@@ -101,6 +101,7 @@ var CommandDispatcher = exports.CommandDispatcher = /** @class */ (function () {
                     foundCommand = true;
                     try {
                         var value = context.getCommand()(context);
+                        // @ts-ignore
                         result += (value || value === 0) ? value : 1;
                         successfulForks++;
                     }
