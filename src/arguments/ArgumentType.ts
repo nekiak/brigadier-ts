@@ -3,9 +3,7 @@ import {
     CommandContext,
     Suggestions,
     SuggestionsBuilder
-} from "../internal";
-import {  } from "../suggestion/Suggestions";
-
+} from "..";
 
 export abstract class ArgumentType<T> {
     abstract parse(reader: StringReader): T;

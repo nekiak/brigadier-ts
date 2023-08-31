@@ -74,7 +74,28 @@ export class StringReader {
             throw CommandSyntaxError.READER_EXPECTED_INT.createWithContext(this);
         }
         try {
-            return parseInt(number);
+            const value = Number(number);
+            if (isNaN(value) || !Number.isInteger(value)) {
+                throw new Error()
+            }
+            return value
+        } catch (e) {
+            this.cursor = start;
+            throw CommandSyntaxError.READER_INVALID_INT.createWithContext(this, number);
+        }
+    }
+
+    readLong(): BigInt {
+        const start = this.cursor;
+        while (this.canRead() && this.isAllowedNumber(this.peek())) {
+            this.skip();
+        }
+        const number = this.string.substring(start, this.cursor);
+        if (number.length === 0) {
+            throw CommandSyntaxError.READER_EXPECTED_INT.createWithContext(this);
+        }
+        try {
+            return BigInt(number);
         } catch (e) {
             this.cursor = start;
             throw CommandSyntaxError.READER_INVALID_INT.createWithContext(this, number);
@@ -91,14 +112,15 @@ export class StringReader {
             throw CommandSyntaxError.READER_EXPECTED_FLOAT.createWithContext(this);
         }
         try {
-            return parseFloat(number);
+            const value = Number(number);
+            if (isNaN(value)) {
+                throw new Error()
+            }
+            return value
         } catch (e) {
             this.cursor = start;
             throw CommandSyntaxError.READER_INVALID_FLOAT.createWithContext(this, number);
         }
-        
-
-        return 0;
     }
 
     isAllowedInUnquotedString(c: string): boolean {
